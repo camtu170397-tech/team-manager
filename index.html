@@ -3,43 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPT Team Hub - Manager Pro</title>
+    <title>PPT Team Hub - Auto Counting Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .tab-active { border-bottom: 4px solid #4f46e5; color: #4f46e5; }
+        .tab-active { border-bottom: 4px solid #4f46e5; color: #4f46e5; font-weight: 900; }
         .hide { display: none; }
+        input::placeholder { font-weight: 400; color: #cbd5e1; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body class="bg-slate-50 min-h-screen font-sans">
 
     <!-- Navigation -->
     <nav class="bg-white shadow-md sticky top-0 z-50 mb-6">
-        <div class="max-w-6xl mx-auto px-4 flex space-x-8">
-            <button onclick="switchTab('input')" id="tab-input" class="py-4 px-2 font-bold tab-active text-sm uppercase tracking-wider">Giao Việc</button>
-            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="py-4 px-2 font-bold text-slate-400 text-sm uppercase tracking-wider">Dashboard Tuần/Dự án</button>
+        <div class="max-w-6xl mx-auto px-4 flex space-x-8 text-slate-400">
+            <button onclick="switchTab('input')" id="tab-input" class="py-4 px-2 tab-active text-sm uppercase tracking-widest transition-all">Giao Việc & Đếm Slide</button>
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="py-4 px-2 text-sm uppercase tracking-widest transition-all">Dashboard Tuần/Dự án</button>
         </div>
     </nav>
 
     <div class="max-w-6xl mx-auto px-4 pb-20">
         
-        <!-- SECTION 1: GIAO VIỆC -->
         <section id="section-input" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Bên Trái -->
             <div class="lg:col-span-1">
-                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-200">
-                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase italic">Tạo Task Mới</h2>
+                <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-200">
+                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase italic tracking-tighter">Assignment Manager</h2>
                     
-                    <div class="space-y-4">
-                        <!-- Ô NHẬP TÊN PROJECT -->
+                    <div class="space-y-5">
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tên Project</label>
-                            <input type="text" id="projName" placeholder="VD: Pitch Deck Sapo" class="w-full bg-slate-100 p-3 rounded-xl border-none outline-indigo-500 font-bold mt-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Tên Dự Án</label>
+                            <input type="text" id="projName" placeholder="VD: Pitch Deck Sapo" class="w-full bg-slate-50 p-3 rounded-xl border border-slate-100 outline-indigo-500 font-bold mt-1 shadow-sm">
                         </div>
                         
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nhân viên</label>
-                            <select id="staff" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Người phụ trách</label>
+                            <select id="staff" class="w-full bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold mt-1 shadow-sm">
                                 <option value="Khanh">Khanh (Exe L1)</option>
                                 <option value="Thùy">Thùy (Exe L4)</option>
                                 <option value="Vân Anh">Vân Anh (Exe L4)</option>
@@ -47,67 +47,78 @@
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Loại Công Việc</label>
-                            <select id="taskType" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1" onchange="toggleLevelUI()">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Loại Task</label>
+                            <select id="taskType" class="w-full bg-slate-50 p-3 rounded-xl border border-slate-100 font-bold mt-1 shadow-sm" onchange="toggleLevelUI()">
                                 <option value="slides">Thiết kế Slides</option>
-                                <option value="slideMaster">Làm Slide Master</option>
+                                <option value="slideMaster">Slide Master</option>
                                 <option value="convert">Convert Slide</option>
-                                <option value="redo">Redo / Sửa lại Slide</option>
-                                <option value="animation">Làm Animation</option>
-                                <option value="timed">QA / Word / Feedback (30p)</option>
+                                <option value="redo">Redo / Sửa lại</option>
+                                <option value="animation">Animation</option>
+                                <option value="timed">QA/Word/Other (0.5h)</option>
                             </select>
                         </div>
 
-                        <!-- PHẦN CHIA NHIỀU LEVEL -->
-                        <div id="levelSplitter" class="p-4 bg-indigo-50 rounded-xl space-y-3">
-                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Chia Level & Số Lượng</p>
-                            <div id="levelRows" class="space-y-3">
-                                <div class="flex gap-2 level-row">
-                                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm w-1/3">
-                                        <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
-                                    </select>
-                                    <input type="number" placeholder="Số slide" class="row-qty w-2/3 bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                        <!-- HỆ THỐNG TỰ ĐẾM SLIDE -->
+                        <div id="levelSplitter" class="p-5 bg-indigo-50 rounded-2xl border border-indigo-100 space-y-4">
+                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Liệt kê tên slide theo Level</p>
+                            <div id="levelRows" class="space-y-4">
+                                <div class="level-row space-y-1">
+                                    <div class="flex justify-between items-center px-1">
+                                        <select class="row-level bg-transparent font-black text-indigo-600 border-none text-xs">
+                                            <option value="L5">LEVEL 5</option><option value="L4">LEVEL 4</option><option value="L3" selected>LEVEL 3</option><option value="L2">LEVEL 2</option><option value="L1">LEVEL 1</option>
+                                        </select>
+                                        <span class="text-[10px] text-indigo-400 font-bold count-badge italic">0 slide</span>
+                                    </div>
+                                    <input type="text" oninput="autoCount(this)" placeholder="Nhập: s1 s2 s3..." class="row-slides w-full bg-white p-3 rounded-xl text-xs font-bold border-none shadow-sm outline-indigo-400">
                                 </div>
                             </div>
-                            <button onclick="addLevelRow()" class="text-indigo-600 text-[10px] font-black uppercase hover:underline">+ Thêm Level khác</button>
+                            <button onclick="addLevelRow()" class="w-full py-2 border-2 border-dashed border-indigo-200 rounded-xl text-indigo-400 text-[10px] font-black hover:bg-indigo-100 transition-all uppercase">+ Thêm Level khác</button>
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ghi chú slide (Description)</label>
-                            <textarea id="desc" placeholder="VD: Slide 1-10 level 3, slide 11 level 2..." class="w-full bg-slate-100 p-3 rounded-xl border-none text-sm h-24 mt-1"></textarea>
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Ghi chú thêm (Nếu có)</label>
+                            <textarea id="desc" placeholder="Note thêm điều gì đó..." class="w-full bg-slate-50 p-3 rounded-xl border border-slate-100 text-sm h-20 mt-1 shadow-sm"></textarea>
                         </div>
 
-                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all uppercase tracking-widest">Lưu & Tính Workload</button>
+                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all uppercase tracking-[0.2em]">Lưu & Tính Workload</button>
                     </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
-                    <div class="flex justify-between items-end mb-6">
-                        <h2 class="font-black text-slate-800 text-xl uppercase italic">Workload Hôm Nay</h2>
-                        <button onclick="clearData()" class="text-[10px] text-red-400 font-bold uppercase underline tracking-widest">Reset Toàn Bộ</button>
+            <!-- Dashboard Bên Phải -->
+            <div class="lg:col-span-2 space-y-8">
+                <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-200">
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <h2 class="font-black text-slate-800 text-2xl uppercase italic tracking-tighter">Hôm nay</h2>
+                            <p id="dateVal" class="text-xs text-slate-400 font-bold"></p>
+                        </div>
+                        <button onclick="clearData()" class="text-[10px] text-red-300 font-black uppercase hover:text-red-500 transition-colors tracking-widest">Reset Toàn Bộ Dữ Liệu</button>
                     </div>
-                    <canvas id="todayChart" height="100"></canvas>
+                    <div class="h-48">
+                        <canvas id="todayChart"></canvas>
+                    </div>
                 </div>
-                <div id="recentTasks" class="space-y-4"></div>
+
+                <div id="recentTasks" class="grid grid-cols-1 gap-4 text-slate-700">
+                    <!-- Task logs load here -->
+                </div>
             </div>
         </section>
 
-        <!-- SECTION 2: DASHBOARD THỐNG KÊ -->
+        <!-- DASHBOARD TAB -->
         <section id="section-dashboard" class="hide space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
-                    <h2 class="font-black text-slate-700 mb-6 uppercase text-sm italic tracking-widest text-center">Tổng Phút Trong Tuần</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-bold">
+                <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-200">
+                    <h2 class="text-slate-400 mb-8 uppercase text-xs tracking-widest text-center">Workload Tuần Này</h2>
                     <canvas id="weeklyChart"></canvas>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
-                    <h2 class="font-black text-slate-700 mb-6 uppercase text-sm italic tracking-widest text-center">Dữ Liệu Theo Dự Án</h2>
+                <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-200">
+                    <h2 class="text-slate-400 mb-8 uppercase text-xs tracking-widest text-center">Workload Theo Dự Án</h2>
                     <canvas id="projectChart"></canvas>
                 </div>
             </div>
         </section>
-
     </div>
 
     <script>
@@ -121,37 +132,35 @@
             timed: 30
         };
 
-        // Sử dụng key mới slide_data_v3 để tránh lỗi dữ liệu cũ
-        let allTasks = JSON.parse(localStorage.getItem('slide_data_v3')) || [];
+        let allTasks = JSON.parse(localStorage.getItem('slide_data_v4')) || [];
 
-        function switchTab(tab) {
-            document.getElementById('section-input').classList.toggle('hide', tab !== 'input');
-            document.getElementById('section-dashboard').classList.toggle('hide', tab !== 'dashboard');
-            document.getElementById('tab-input').classList.toggle('tab-active', tab === 'input');
-            document.getElementById('tab-dashboard').classList.toggle('tab-active', tab === 'dashboard');
-            if(tab === 'dashboard') renderDashboard();
+        function autoCount(input) {
+            const val = input.value.trim();
+            const badge = input.parentElement.querySelector('.count-badge');
+            // Đếm các cụm từ cách nhau bởi dấu cách hoặc dấu phẩy
+            const count = val === "" ? 0 : val.split(/[\s,]+/).filter(x => x.length > 0).length;
+            badge.innerText = `${count} slide`;
+            return count;
         }
 
         function addLevelRow() {
             const container = document.getElementById('levelRows');
-            const newRow = document.createElement('div');
-            newRow.className = "flex gap-2 level-row animate-slide-down";
-            newRow.innerHTML = `
-                <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm w-1/3">
-                    <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
-                </select>
-                <input type="number" placeholder="Số slide" class="row-qty w-2/3 bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+            const div = document.createElement('div');
+            div.className = "level-row space-y-1 animate-slide-down mt-4";
+            div.innerHTML = `
+                <div class="flex justify-between items-center px-1">
+                    <select class="row-level bg-transparent font-black text-indigo-600 border-none text-xs">
+                        <option value="L5">LEVEL 5</option><option value="L4">LEVEL 4</option><option value="L3" selected>LEVEL 3</option><option value="L2">LEVEL 2</option><option value="L1">LEVEL 1</option>
+                    </select>
+                    <span class="text-[10px] text-indigo-400 font-bold count-badge italic">0 slide</span>
+                </div>
+                <input type="text" oninput="autoCount(this)" placeholder="Nhập: s1 s2 s3..." class="row-slides w-full bg-white p-3 rounded-xl text-xs font-bold border-none shadow-sm outline-indigo-400">
             `;
-            container.appendChild(newRow);
-        }
-
-        function toggleLevelUI() {
-            const type = document.getElementById('taskType').value;
-            document.getElementById('levelSplitter').style.display = type === 'timed' ? 'none' : 'block';
+            container.appendChild(div);
         }
 
         function saveTask() {
-            const proj = document.getElementById('projName').value || "Dự án không tên";
+            const proj = document.getElementById('projName').value || "Dự án lẻ";
             const staff = document.getElementById('staff').value;
             const type = document.getElementById('taskType').value;
             const desc = document.getElementById('desc').value;
@@ -161,51 +170,66 @@
             let totalMins = 0;
             let breakdown = [];
 
-            if(type === 'timed') {
-                const qty = parseInt(document.querySelector('.row-qty').value) || 0;
-                totalMins = qty * MATRIX.timed;
-                breakdown.push(`${qty} đơn vị (30p)`);
-            } else {
-                document.querySelectorAll('.level-row').forEach(row => {
-                    const l = row.querySelector('.row-level').value;
-                    const q = parseInt(row.querySelector('.row-qty').value) || 0;
-                    totalMins += MATRIX[type][l] * q;
-                    if(q > 0) breakdown.push(`${q} slide ${l}`);
-                });
-            }
+            const rows = document.querySelectorAll('.level-row');
+            rows.forEach(row => {
+                const level = row.querySelector('.row-level').value;
+                const slidesText = row.querySelector('.row-slides').value;
+                const count = autoCount(row.querySelector('.row-slides'));
+                
+                if(count > 0) {
+                    const mins = type === 'timed' ? count * MATRIX.timed : MATRIX[type][level] * count;
+                    totalMins += mins;
+                    breakdown.push(`${level}: ${count}sl (${slidesText})`);
+                }
+            });
 
-            if(totalMins === 0) return alert("Bro chưa nhập số lượng!");
+            if(totalMins === 0) return alert("Hệ thống chưa thấy slide nào được liệt kê!");
 
             allTasks.push({ id: Date.now(), proj, staff, type, totalMins, desc, breakdown, date, week });
-            localStorage.setItem('slide_data_v3', JSON.stringify(allTasks));
+            localStorage.setItem('slide_data_v4', JSON.stringify(allTasks));
             
-            // Clear form
+            // Reset form
             document.getElementById('projName').value = "";
             document.getElementById('desc').value = "";
+            document.getElementById('levelRows').innerHTML = `
+                <div class="level-row space-y-1">
+                    <div class="flex justify-between items-center px-1">
+                        <select class="row-level bg-transparent font-black text-indigo-600 border-none text-xs">
+                            <option value="L5">LEVEL 5</option><option value="L4">LEVEL 4</option><option value="L3" selected>LEVEL 3</option><option value="L2">LEVEL 2</option><option value="L1">LEVEL 1</option>
+                        </select>
+                        <span class="text-[10px] text-indigo-400 font-bold count-badge italic">0 slide</span>
+                    </div>
+                    <input type="text" oninput="autoCount(this)" placeholder="Nhập: s1 s2 s3..." class="row-slides w-full bg-white p-3 rounded-xl text-xs font-bold border-none shadow-sm outline-indigo-400">
+                </div>
+            `;
             renderToday();
         }
 
         function renderToday() {
             const today = new Date().toISOString().split('T')[0];
-            const todayTasks = allTasks.filter(t => t.date === today);
+            document.getElementById('dateVal').innerText = new Date().toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             
+            const todayTasks = allTasks.filter(t => t.date === today);
             const stats = { Khanh: 0, "Thùy": 0, "Vân Anh": 0 };
             todayTasks.forEach(t => stats[t.staff] += t.totalMins);
 
             updateChart('todayChart', Object.keys(stats), Object.values(stats), true);
 
-            const listContainer = document.getElementById('recentTasks');
-            listContainer.innerHTML = todayTasks.reverse().map(t => `
-                <div class="bg-white p-4 rounded-xl border-l-8 border-indigo-500 shadow-md flex justify-between items-center">
-                    <div>
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="font-black text-[10px] uppercase text-indigo-600 bg-indigo-50 px-2 py-1 rounded tracking-tighter">${t.proj}</span>
-                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">${t.staff}</span>
+            document.getElementById('recentTasks').innerHTML = todayTasks.slice().reverse().map(t => `
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex justify-between items-center transition-all hover:shadow-md">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-[10px] font-black px-2 py-1 bg-indigo-600 text-white rounded-lg uppercase tracking-tighter">${t.proj}</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">${t.staff}</span>
                         </div>
-                        <p class="text-xs font-black text-slate-700 uppercase">${t.type.replace(/([A-Z])/g, ' $1')} | ${t.breakdown.join(' + ')}</p>
-                        <p class="text-[10px] text-slate-400 mt-1 italic">${t.desc || '...'}</p>
+                        <div class="space-y-1">
+                            ${t.breakdown.map(b => `<p class="text-xs font-bold text-slate-700 uppercase tracking-tighter"><i class="fa-solid fa-check text-indigo-400 mr-2"></i>${b}</p>`).join('')}
+                        </div>
+                        ${t.desc ? `<p class="text-[10px] text-slate-400 mt-2 italic border-t pt-2 border-slate-50">${t.desc}</p>` : ''}
                     </div>
-                    <div class="text-right font-black text-slate-800 text-lg tracking-tighter">${t.totalMins}m</div>
+                    <div class="text-right ml-4">
+                        <p class="text-2xl font-black text-slate-800 tracking-tighter">${t.totalMins}<span class="text-[10px] ml-1 text-slate-300">m</span></p>
+                    </div>
                 </div>
             `).join('');
         }
@@ -213,23 +237,26 @@
         let charts = {};
         function updateChart(id, labels, data, isHorizontal) {
             if(charts[id]) charts[id].destroy();
-            const canvas = document.getElementById(id);
-            if(!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = document.getElementById(id).getContext('2d');
             charts[id] = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels,
                     datasets: [{
                         data,
-                        backgroundColor: data.map(v => v > CAPACITY && id==='todayChart' ? '#ef4444' : '#6366f1'),
-                        borderRadius: 12
+                        backgroundColor: data.map(v => v > CAPACITY && id === 'todayChart' ? '#f43f5e' : '#6366f1'),
+                        borderRadius: 15,
+                        barThickness: 25
                     }]
                 },
                 options: { 
                     indexAxis: isHorizontal ? 'y' : 'x',
+                    maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, grid: {display:false} }, x: { grid: {display:false}, max: isHorizontal ? 600 : undefined } }
+                    scales: { 
+                        y: { beginAtZero: true, grid: {display:false}, ticks: {font:{weight:'bold', size:10}} }, 
+                        x: { grid: {display:false}, ticks: {font:{weight:'bold', size:10}}, max: isHorizontal ? 600 : undefined } 
+                    }
                 }
             });
         }
@@ -248,21 +275,24 @@
         function getWeekNumber(d) {
             d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+            return Math.ceil((((d - new Date(Date.UTC(d.getUTCFullYear(),0,1))) / 86400000) + 1)/7);
         }
 
-        function clearData() {
-            if(confirm("Xóa hết sạch sành sanh dữ liệu?")) {
-                localStorage.removeItem('slide_data_v3');
-                allTasks = [];
-                renderToday();
-            }
+        function switchTab(tab) {
+            document.getElementById('section-input').classList.toggle('hide', tab !== 'input');
+            document.getElementById('section-dashboard').classList.toggle('hide', tab !== 'dashboard');
+            document.getElementById('tab-input').classList.toggle('tab-active', tab === 'input');
+            document.getElementById('tab-dashboard').classList.toggle('tab-active', tab === 'dashboard');
+            if(tab === 'dashboard') renderDashboard();
         }
 
-        window.onload = function() {
-            renderToday();
-        };
+        function toggleLevelUI() {
+            const type = document.getElementById('taskType').value;
+            document.getElementById('levelSplitter').style.display = type === 'timed' ? 'none' : 'block';
+        }
+
+        function clearData() { if(confirm("Cảnh báo: Hành động này sẽ xóa toàn bộ lịch sử!")) { localStorage.removeItem('slide_data_v4'); allTasks = []; renderToday(); } }
+        window.onload = renderToday;
     </script>
 </body>
 </html>
