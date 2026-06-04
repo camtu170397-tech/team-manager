@@ -3,38 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPT Team Hub Pro v2</title>
+    <title>PPT Team Hub - Manager Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; }
+        .tab-active { border-bottom: 4px solid #4f46e5; color: #4f46e5; }
         .hide { display: none; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen pb-20">
+<body class="bg-slate-50 min-h-screen">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50 mb-6">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 mb-6">
         <div class="max-w-6xl mx-auto px-4 flex space-x-8">
-            <button onclick="switchTab('input')" id="tab-input" class="py-4 px-2 font-bold tab-active transition-all text-sm uppercase tracking-wider">Giao Việc</button>
-            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="py-4 px-2 font-bold text-slate-400 transition-all text-sm uppercase tracking-wider">Dashboard Tuần/Dự án</button>
+            <button onclick="switchTab('input')" id="tab-input" class="py-4 px-2 font-bold tab-active text-sm uppercase tracking-wider">Giao Việc</button>
+            <button onclick="switchTab('dashboard')" id="tab-dashboard" class="py-4 px-2 font-bold text-slate-400 text-sm uppercase tracking-wider">Dashboard Tuần/Dự án</button>
         </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto px-4">
+    <div class="max-w-6xl mx-auto px-4 pb-20">
+        
+        <!-- SECTION 1: GIAO VIỆC -->
         <section id="section-input" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-1 space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase tracking-tighter italic">New Task Group</h2>
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-2xl shadow-xl border border-slate-200">
+                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase italic">Tạo Task Mới</h2>
                     
                     <div class="space-y-4">
+                        <!-- Ô NHẬP TÊN PROJECT -->
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">Tên Project</label>
-                            <input type="text" id="projName" placeholder="VD: Pitch Deck Client A" class="w-full bg-slate-100 p-3 rounded-xl border-none outline-indigo-500 font-bold mt-1">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Tên Project</label>
+                            <input type="text" id="projName" placeholder="VD: Pitch Deck Sapo" class="w-full bg-slate-100 p-3 rounded-xl border-none outline-indigo-500 font-bold mt-1">
                         </div>
                         
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">Nhân viên</label>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Nhân viên</label>
                             <select id="staff" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1">
                                 <option value="Khanh">Khanh (Exe L1)</option>
                                 <option value="Thùy">Thùy (Exe L4)</option>
@@ -43,64 +47,67 @@
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">Loại Task</label>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Loại Công Việc</label>
                             <select id="taskType" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1" onchange="toggleLevelUI()">
-                                <option value="slides">Slides Content</option>
-                                <option value="slideMaster">Slide Master</option>
-                                <option value="convert">Convert</option>
-                                <option value="redo">Redo Slide</option>
-                                <option value="animation">Animation</option>
-                                <option value="timed">QA/Word/Edit/Other</option>
+                                <option value="slides">Thiết kế Slides</option>
+                                <option value="slideMaster">Làm Slide Master</option>
+                                <option value="convert">Convert Slide</option>
+                                <option value="redo">Redo / Sửa lại Slide</option>
+                                <option value="animation">Làm Animation</option>
+                                <option value="timed">QA / Word / Feedback (30p)</option>
                             </select>
                         </div>
 
+                        <!-- PHẦN CHIA NHIỀU LEVEL -->
                         <div id="levelSplitter" class="p-4 bg-indigo-50 rounded-xl space-y-3">
-                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Phân bổ Level & Số lượng</p>
-                            <div id="levelRows" class="space-y-2">
+                            <p class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">Chia Level & Số Lượng</p>
+                            <div id="levelRows" class="space-y-3">
                                 <div class="flex gap-2 level-row">
-                                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm w-1/3">
                                         <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
                                     </select>
-                                    <input type="number" placeholder="Số slide" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                                    <input type="number" placeholder="Số slide" class="row-qty w-2/3 bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
                                 </div>
                             </div>
-                            <button onclick="addLevelRow()" class="text-indigo-600 text-[10px] font-bold hover:underline">+ THÊM DÒNG LEVEL (VD: 5 slide L3, 2 slide L2...)</button>
+                            <button onclick="addLevelRow()" class="text-indigo-600 text-[10px] font-black uppercase hover:underline">+ Thêm Level khác</button>
                         </div>
 
                         <div>
-                            <label class="text-[10px] font-bold text-slate-400 uppercase">Ghi chú / List Slide</label>
-                            <textarea id="desc" placeholder="Liệt kê slide cần làm..." class="w-full bg-slate-100 p-3 rounded-xl border-none text-sm h-24 mt-1"></textarea>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Ghi chú slide (Description)</label>
+                            <textarea id="desc" placeholder="VD: Slide 1-10 level 3, slide 11 level 2..." class="w-full bg-slate-100 p-3 rounded-xl border-none text-sm h-24 mt-1"></textarea>
                         </div>
 
-                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all uppercase tracking-widest">Lưu & Tính Workload</button>
+                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg hover:bg-indigo-700 transition-all uppercase tracking-widest">Lưu & Tính Workload</button>
                     </div>
                 </div>
             </div>
 
             <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
                     <div class="flex justify-between items-end mb-6">
-                        <h2 class="font-black text-slate-800 text-xl uppercase tracking-tighter italic">Today's Workload</h2>
-                        <button onclick="clearData()" class="text-[10px] text-red-400 font-bold uppercase underline tracking-widest">Reset Data</button>
+                        <h2 class="font-black text-slate-800 text-xl uppercase italic">Workload Hôm Nay</h2>
+                        <button onclick="clearData()" class="text-[10px] text-red-400 font-bold uppercase underline tracking-widest">Reset Toàn Bộ</button>
                     </div>
                     <canvas id="todayChart" height="100"></canvas>
                 </div>
-                <div id="recentTasks" class="space-y-3"></div>
+                <div id="recentTasks" class="space-y-4"></div>
             </div>
         </section>
 
+        <!-- SECTION 2: DASHBOARD THỐNG KÊ -->
         <section id="section-dashboard" class="hide space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center font-bold">
-                    <h2 class="text-slate-700 mb-6 uppercase tracking-widest text-sm italic">Hiệu suất theo Tuần</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                    <h2 class="font-black text-slate-700 mb-6 uppercase text-sm italic tracking-widest text-center">Tổng Phút Trong Tuần</h2>
                     <canvas id="weeklyChart"></canvas>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 font-bold">
-                    <h2 class="text-slate-700 mb-6 uppercase tracking-widest text-sm italic">Theo Dự án</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-200">
+                    <h2 class="font-black text-slate-700 mb-6 uppercase text-sm italic tracking-widest text-center">Dữ Liệu Theo Dự Án</h2>
                     <canvas id="projectChart"></canvas>
                 </div>
             </div>
         </section>
+
     </div>
 
     <script>
@@ -114,7 +121,8 @@
             timed: 30
         };
 
-        let allTasks = JSON.parse(localStorage.getItem('slide_data_v2')) || [];
+        // Sử dụng key mới slide_data_v3 để tránh lỗi dữ liệu cũ
+        let allTasks = JSON.parse(localStorage.getItem('slide_data_v3')) || [];
 
         function switchTab(tab) {
             document.getElementById('section-input').classList.toggle('hide', tab !== 'input');
@@ -127,12 +135,12 @@
         function addLevelRow() {
             const container = document.getElementById('levelRows');
             const newRow = document.createElement('div');
-            newRow.className = "flex gap-2 level-row animate-slide-down mt-2";
+            newRow.className = "flex gap-2 level-row animate-slide-down";
             newRow.innerHTML = `
-                <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm w-1/3">
                     <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
                 </select>
-                <input type="number" placeholder="Số slide" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                <input type="number" placeholder="Số slide" class="row-qty w-2/3 bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
             `;
             container.appendChild(newRow);
         }
@@ -143,7 +151,7 @@
         }
 
         function saveTask() {
-            const proj = document.getElementById('projName').value || "Project không tên";
+            const proj = document.getElementById('projName').value || "Dự án không tên";
             const staff = document.getElementById('staff').value;
             const type = document.getElementById('taskType').value;
             const desc = document.getElementById('desc').value;
@@ -154,10 +162,9 @@
             let breakdown = [];
 
             if(type === 'timed') {
-                const qtyInput = document.querySelector('.row-qty');
-                const qty = parseInt(qtyInput.value) || 0;
+                const qty = parseInt(document.querySelector('.row-qty').value) || 0;
                 totalMins = qty * MATRIX.timed;
-                breakdown.push(`${qty} đv 30p`);
+                breakdown.push(`${qty} đơn vị (30p)`);
             } else {
                 document.querySelectorAll('.level-row').forEach(row => {
                     const l = row.querySelector('.row-level').value;
@@ -167,11 +174,12 @@
                 });
             }
 
-            if(totalMins === 0) return alert("Chưa nhập số lượng slide bro ơi!");
+            if(totalMins === 0) return alert("Bro chưa nhập số lượng!");
 
             allTasks.push({ id: Date.now(), proj, staff, type, totalMins, desc, breakdown, date, week });
-            localStorage.setItem('slide_data_v2', JSON.stringify(allTasks));
+            localStorage.setItem('slide_data_v3', JSON.stringify(allTasks));
             
+            // Clear form
             document.getElementById('projName').value = "";
             document.getElementById('desc').value = "";
             renderToday();
@@ -180,16 +188,81 @@
         function renderToday() {
             const today = new Date().toISOString().split('T')[0];
             const todayTasks = allTasks.filter(t => t.date === today);
+            
             const stats = { Khanh: 0, "Thùy": 0, "Vân Anh": 0 };
             todayTasks.forEach(t => stats[t.staff] += t.totalMins);
+
             updateChart('todayChart', Object.keys(stats), Object.values(stats), true);
 
-            document.getElementById('recentTasks').innerHTML = todayTasks.slice().reverse().map(t => `
-                <div class="bg-white p-4 rounded-xl border-l-4 border-indigo-500 shadow-sm flex justify-between items-start">
+            const listContainer = document.getElementById('recentTasks');
+            listContainer.innerHTML = todayTasks.reverse().map(t => `
+                <div class="bg-white p-4 rounded-xl border-l-8 border-indigo-500 shadow-md flex justify-between items-center">
                     <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="font-black text-[10px] uppercase text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">${t.proj}</span>
-                            <span class="text-[10px] text-slate-400 font-bold tracking-widest">${t.staff}</span>
+                            <span class="font-black text-[10px] uppercase text-indigo-600 bg-indigo-50 px-2 py-1 rounded tracking-tighter">${t.proj}</span>
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">${t.staff}</span>
                         </div>
-                        <p class="text-xs font-bold text-slate-700 uppercase">${t.type}: ${t.breakdown.join(' + ')}</p>
-                        <p class=
+                        <p class="text-xs font-black text-slate-700 uppercase">${t.type.replace(/([A-Z])/g, ' $1')} | ${t.breakdown.join(' + ')}</p>
+                        <p class="text-[10px] text-slate-400 mt-1 italic">${t.desc || '...'}</p>
+                    </div>
+                    <div class="text-right font-black text-slate-800 text-lg tracking-tighter">${t.totalMins}m</div>
+                </div>
+            `).join('');
+        }
+
+        let charts = {};
+        function updateChart(id, labels, data, isHorizontal) {
+            if(charts[id]) charts[id].destroy();
+            const canvas = document.getElementById(id);
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            charts[id] = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        backgroundColor: data.map(v => v > CAPACITY && id==='todayChart' ? '#ef4444' : '#6366f1'),
+                        borderRadius: 12
+                    }]
+                },
+                options: { 
+                    indexAxis: isHorizontal ? 'y' : 'x',
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: {display:false} }, x: { grid: {display:false}, max: isHorizontal ? 600 : undefined } }
+                }
+            });
+        }
+
+        function renderDashboard() {
+            const projStats = {};
+            allTasks.forEach(t => { projStats[t.proj] = (projStats[t.proj] || 0) + t.totalMins; });
+            updateChart('projectChart', Object.keys(projStats), Object.values(projStats), false);
+
+            const staffWeekly = { Khanh: 0, "Thùy": 0, "Vân Anh": 0 };
+            const currentWeek = getWeekNumber(new Date());
+            allTasks.filter(t => t.week === currentWeek).forEach(t => staffWeekly[t.staff] += t.totalMins);
+            updateChart('weeklyChart', Object.keys(staffWeekly), Object.values(staffWeekly), false);
+        }
+
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+        }
+
+        function clearData() {
+            if(confirm("Xóa hết sạch sành sanh dữ liệu?")) {
+                localStorage.removeItem('slide_data_v3');
+                allTasks = [];
+                renderToday();
+            }
+        }
+
+        window.onload = function() {
+            renderToday();
+        };
+    </script>
+</body>
+</html>
