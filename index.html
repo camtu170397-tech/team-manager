@@ -10,11 +10,10 @@
     <style>
         .tab-active { border-bottom: 3px solid #4f46e5; color: #4f46e5; }
         .hide { display: none; }
-    </script>
+    </style>
 </head>
 <body class="bg-slate-50 min-h-screen pb-20">
 
-    <!-- Navigation Tabs -->
     <nav class="bg-white shadow-sm sticky top-0 z-50 mb-6">
         <div class="max-w-6xl mx-auto px-4 flex space-x-8">
             <button onclick="switchTab('input')" id="tab-input" class="py-4 px-2 font-bold tab-active transition-all text-sm uppercase tracking-wider">Giao Việc</button>
@@ -23,85 +22,85 @@
     </nav>
 
     <div class="max-w-6xl mx-auto px-4">
-        
-        <!-- TAB 1: NHẬP LIỆU -->
         <section id="section-input" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Form -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase tracking-tighter">New Task Group</h2>
+                    <h2 class="font-black text-slate-800 mb-6 text-xl uppercase tracking-tighter italic">New Task Group</h2>
                     
                     <div class="space-y-4">
-                        <input type="text" id="projName" placeholder="Tên Project (VD: Pitch Deck X)" class="w-full bg-slate-100 p-3 rounded-xl border-none outline-indigo-500 font-bold">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Tên Project</label>
+                            <input type="text" id="projName" placeholder="VD: Pitch Deck Client A" class="w-full bg-slate-100 p-3 rounded-xl border-none outline-indigo-500 font-bold mt-1">
+                        </div>
                         
-                        <select id="staff" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold">
-                            <option value="Khanh">Khanh (Exe L1)</option>
-                            <option value="Thùy">Thùy (Exe L4)</option>
-                            <option value="Vân Anh">Vân Anh (Exe L4)</option>
-                        </select>
-
-                        <select id="taskType" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold" onchange="toggleLevelUI()">
-                            <option value="slides">Slides Content</option>
-                            <option value="slideMaster">Slide Master</option>
-                            <option value="convert">Convert</option>
-                            <option value="redo">Redo Slide</option>
-                            <option value="animation">Animation</option>
-                            <option value="timed">QA/Word/Edit/Other</option>
-                        </select>
-
-                        <!-- Level Splitter -->
-                        <div id="levelSplitter" class="p-4 bg-indigo-50 rounded-xl space-y-3">
-                            <p class="text-[10px] font-black text-indigo-400 uppercase">Phân bổ Level & Số lượng</p>
-                            <div id="levelRows" class="space-y-2">
-                                <div class="flex gap-2 level-row">
-                                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none">
-                                        <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
-                                    </select>
-                                    <input type="number" placeholder="SL" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none">
-                                </div>
-                            </div>
-                            <button onclick="addLevelRow()" class="text-indigo-600 text-[10px] font-bold">+ Thêm dòng Level</button>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Nhân viên</label>
+                            <select id="staff" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1">
+                                <option value="Khanh">Khanh (Exe L1)</option>
+                                <option value="Thùy">Thùy (Exe L4)</option>
+                                <option value="Vân Anh">Vân Anh (Exe L4)</option>
+                            </select>
                         </div>
 
-                        <textarea id="desc" placeholder="Ghi chú (VD: Slide 1-5 level 3, Slide 6-10 level 2...)" class="w-full bg-slate-100 p-3 rounded-xl border-none text-sm h-24"></textarea>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Loại Task</label>
+                            <select id="taskType" class="w-full bg-slate-100 p-3 rounded-xl border-none font-bold mt-1" onchange="toggleLevelUI()">
+                                <option value="slides">Slides Content</option>
+                                <option value="slideMaster">Slide Master</option>
+                                <option value="convert">Convert</option>
+                                <option value="redo">Redo Slide</option>
+                                <option value="animation">Animation</option>
+                                <option value="timed">QA/Word/Edit/Other</option>
+                            </select>
+                        </div>
 
-                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all uppercase tracking-widest">Lưu Task & Tính Workload</button>
+                        <div id="levelSplitter" class="p-4 bg-indigo-50 rounded-xl space-y-3">
+                            <p class="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Phân bổ Level & Số lượng</p>
+                            <div id="levelRows" class="space-y-2">
+                                <div class="flex gap-2 level-row">
+                                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                                        <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
+                                    </select>
+                                    <input type="number" placeholder="Số slide" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
+                                </div>
+                            </div>
+                            <button onclick="addLevelRow()" class="text-indigo-600 text-[10px] font-bold hover:underline">+ THÊM DÒNG LEVEL (VD: 5 slide L3, 2 slide L2...)</button>
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Ghi chú / List Slide</label>
+                            <textarea id="desc" placeholder="Liệt kê slide cần làm..." class="w-full bg-slate-100 p-3 rounded-xl border-none text-sm h-24 mt-1"></textarea>
+                        </div>
+
+                        <button onclick="saveTask()" class="w-full bg-indigo-600 text-white font-black py-4 rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all uppercase tracking-widest">Lưu & Tính Workload</button>
                     </div>
                 </div>
             </div>
 
-            <!-- List Today -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                     <div class="flex justify-between items-end mb-6">
-                        <h2 class="font-black text-slate-800 text-xl uppercase tracking-tighter">Hôm nay</h2>
-                        <button onclick="clearData()" class="text-[10px] text-red-400 font-bold uppercase underline">Reset Data</button>
+                        <h2 class="font-black text-slate-800 text-xl uppercase tracking-tighter italic">Today's Workload</h2>
+                        <button onclick="clearData()" class="text-[10px] text-red-400 font-bold uppercase underline tracking-widest">Reset Data</button>
                     </div>
                     <canvas id="todayChart" height="100"></canvas>
                 </div>
-
-                <div id="recentTasks" class="space-y-3">
-                    <!-- Tasks will appear here -->
-                </div>
+                <div id="recentTasks" class="space-y-3"></div>
             </div>
         </section>
 
-        <!-- TAB 2: DASHBOARD -->
         <section id="section-dashboard" class="hide space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Weekly Report -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center">
-                    <h2 class="font-black text-slate-700 mb-6 uppercase tracking-widest text-sm">Hiệu suất theo Tuần (Total Mins)</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 text-center font-bold">
+                    <h2 class="text-slate-700 mb-6 uppercase tracking-widest text-sm italic">Hiệu suất theo Tuần</h2>
                     <canvas id="weeklyChart"></canvas>
                 </div>
-                <!-- Project Report -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <h2 class="font-black text-slate-700 mb-6 uppercase tracking-widest text-sm">Tổng cộng theo Dự án</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 font-bold">
+                    <h2 class="text-slate-700 mb-6 uppercase tracking-widest text-sm italic">Theo Dự án</h2>
                     <canvas id="projectChart"></canvas>
                 </div>
             </div>
         </section>
-
     </div>
 
     <script>
@@ -115,7 +114,7 @@
             timed: 30
         };
 
-        let allTasks = JSON.parse(localStorage.getItem('slide_data')) || [];
+        let allTasks = JSON.parse(localStorage.getItem('slide_data_v2')) || [];
 
         function switchTab(tab) {
             document.getElementById('section-input').classList.toggle('hide', tab !== 'input');
@@ -128,12 +127,12 @@
         function addLevelRow() {
             const container = document.getElementById('levelRows');
             const newRow = document.createElement('div');
-            newRow.className = "flex gap-2 level-row animate-slide-down";
+            newRow.className = "flex gap-2 level-row animate-slide-down mt-2";
             newRow.innerHTML = `
-                <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none">
+                <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
                     <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
                 </select>
-                <input type="number" placeholder="SL" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none">
+                <input type="number" placeholder="Số slide" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none shadow-sm">
             `;
             container.appendChild(newRow);
         }
@@ -144,7 +143,7 @@
         }
 
         function saveTask() {
-            const proj = document.getElementById('projName').value || "No Project";
+            const proj = document.getElementById('projName').value || "Project không tên";
             const staff = document.getElementById('staff').value;
             const type = document.getElementById('taskType').value;
             const desc = document.getElementById('desc').value;
@@ -155,12 +154,12 @@
             let breakdown = [];
 
             if(type === 'timed') {
-                const qty = parseInt(document.querySelector('.row-qty').value) || 0;
+                const qtyInput = document.querySelector('.row-qty');
+                const qty = parseInt(qtyInput.value) || 0;
                 totalMins = qty * MATRIX.timed;
-                breakdown.push(`${qty} đơn vị 30p`);
+                breakdown.push(`${qty} đv 30p`);
             } else {
-                const rows = document.querySelectorAll('.level-row');
-                rows.forEach(row => {
+                document.querySelectorAll('.level-row').forEach(row => {
                     const l = row.querySelector('.row-level').value;
                     const q = parseInt(row.querySelector('.row-qty').value) || 0;
                     totalMins += MATRIX[type][l] * q;
@@ -168,105 +167,29 @@
                 });
             }
 
-            if(totalMins === 0) return alert("Nhập số lượng bro ơi!");
+            if(totalMins === 0) return alert("Chưa nhập số lượng slide bro ơi!");
 
-            const taskEntry = { id: Date.now(), proj, staff, type, totalMins, desc, breakdown, date, week };
-            allTasks.push(taskEntry);
-            localStorage.setItem('slide_data', JSON.stringify(allTasks));
+            allTasks.push({ id: Date.now(), proj, staff, type, totalMins, desc, breakdown, date, week });
+            localStorage.setItem('slide_data_v2', JSON.stringify(allTasks));
             
-            // Reset form
             document.getElementById('projName').value = "";
             document.getElementById('desc').value = "";
-            document.getElementById('levelRows').innerHTML = `
-                <div class="flex gap-2 level-row">
-                    <select class="row-level bg-white p-2 rounded-lg text-xs font-bold border-none">
-                        <option value="L5">L5</option><option value="L4">L4</option><option value="L3" selected>L3</option><option value="L2">L2</option><option value="L1">L1</option>
-                    </select>
-                    <input type="number" placeholder="SL" class="row-qty w-full bg-white p-2 rounded-lg text-xs font-bold border-none">
-                </div>
-            `;
-            
             renderToday();
         }
 
         function renderToday() {
             const today = new Date().toISOString().split('T')[0];
             const todayTasks = allTasks.filter(t => t.date === today);
-            
             const stats = { Khanh: 0, "Thùy": 0, "Vân Anh": 0 };
             todayTasks.forEach(t => stats[t.staff] += t.totalMins);
+            updateChart('todayChart', Object.keys(stats), Object.values(stats), true);
 
-            updateChart('todayChart', Object.keys(stats), Object.values(stats));
-
-            const listContainer = document.getElementById('recentTasks');
-            listContainer.innerHTML = todayTasks.reverse().map(t => `
+            document.getElementById('recentTasks').innerHTML = todayTasks.slice().reverse().map(t => `
                 <div class="bg-white p-4 rounded-xl border-l-4 border-indigo-500 shadow-sm flex justify-between items-start">
-                    <div class="flex-1">
+                    <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="font-black text-xs uppercase text-indigo-600">${t.proj}</span>
-                            <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-400 font-bold">${t.staff}</span>
+                            <span class="font-black text-[10px] uppercase text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">${t.proj}</span>
+                            <span class="text-[10px] text-slate-400 font-bold tracking-widest">${t.staff}</span>
                         </div>
-                        <p class="text-xs font-bold text-slate-700">${t.type.toUpperCase()} - ${t.breakdown.join(', ')}</p>
-                        <p class="text-[10px] text-slate-400 mt-1 italic">${t.desc}</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="font-black text-slate-800">${t.totalMins}m</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        let charts = {};
-        function updateChart(id, labels, data) {
-            if(charts[id]) charts[id].destroy();
-            const ctx = document.getElementById(id).getContext('2d');
-            charts[id] = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels,
-                    datasets: [{
-                        data,
-                        backgroundColor: data.map(v => v > CAPACITY && id==='todayChart' ? '#ef4444' : '#6366f1'),
-                        borderRadius: 12
-                    }]
-                },
-                options: { 
-                    indexAxis: id === 'todayChart' ? 'y' : 'x',
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, grid: {display:false} }, x: { grid: {display:false} } }
-                }
-            });
-        }
-
-        function renderDashboard() {
-            // Project Chart
-            const projStats = {};
-            allTasks.forEach(t => { projStats[t.proj] = (projStats[t.proj] || 0) + t.totalMins; });
-            updateChart('projectChart', Object.keys(projStats), Object.values(projStats));
-
-            // Weekly Chart (Per staff)
-            const staffWeekly = { Khanh: 0, "Thùy": 0, "Vân Anh": 0 };
-            const currentWeek = getWeekNumber(new Date());
-            allTasks.filter(t => t.week === currentWeek).forEach(t => staffWeekly[t.staff] += t.totalMins);
-            updateChart('weeklyChart', Object.keys(staffWeekly), Object.values(staffWeekly));
-        }
-
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
-        }
-
-        function clearData() {
-            if(confirm("Xóa hết dữ liệu đã lưu?")) {
-                localStorage.removeItem('slide_data');
-                allTasks = [];
-                renderToday();
-            }
-        }
-
-        window.onload = renderToday;
-    </script>
-</body>
-</html>
+                        <p class="text-xs font-bold text-slate-700 uppercase">${t.type}: ${t.breakdown.join(' + ')}</p>
+                        <p class=
